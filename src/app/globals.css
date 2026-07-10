@@ -1,3 +1,182 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --font-body: "Crimson Text", Georgia, serif;
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-mono: "SF Mono", Monaco, monospace;
+
+  /* Design tokens */
+  --color-ivory: #faf8f3;
+  --color-bone: #e8e4dc;
+  --color-hairline: #d4cec2;
+  --color-ink: #1a1815;
+  --color-obsidian: #0f0d0b;
+  --color-gold: #c9985e;
+  --color-gold-bright: #e8b878;
+  --color-gold-deep: #a67835;
+  --color-rose-accent: #d4787a;
+  --color-background: #0f0d0b;
+  --color-foreground: #faf8f3;
+}
+
+@layer base {
+  * {
+    @apply border-[var(--color-hairline)];
+  }
+
+  html {
+    @apply bg-[var(--color-background)] text-[var(--color-foreground)];
+  }
+
+  body {
+    @apply font-body text-base antialiased;
+    background-attachment: fixed;
+    background-image: radial-gradient(
+      circle at 20% 50%,
+      rgba(201, 152, 94, 0.03) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(201, 152, 94, 0.02) 0%,
+      transparent 50%
+    );
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-medium;
+  }
+
+  h1 {
+    @apply text-4xl leading-tight;
+  }
+
+  h2 {
+    @apply text-3xl leading-snug;
+  }
+
+  p {
+    @apply leading-relaxed;
+  }
+
+  a {
+    @apply transition-colors duration-200;
+  }
+}
+
+@layer components {
+  .content-z {
+    @apply relative z-10;
+  }
+
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 rounded-sm border border-[var(--color-gold)] bg-[var(--color-gold)] px-6 py-3 font-display font-medium text-[var(--color-ink)] transition hover:bg-[var(--color-gold-bright)] hover:border-[var(--color-gold-bright)];
+  }
+
+  .fade-up {
+    animation: fadeInUp 0.7s ease-out forwards;
+  }
+
+  .yantra-bg-spin {
+    animation: yantra-spin 120s linear infinite;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}
+
+@keyframes yantra-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Typography utilities */
+@layer utilities {
+  .font-display {
+    @apply font-[family-name:var(--font-cormorant,Georgia,serif)];
+  }
+
+  .font-body {
+    @apply font-[family-name:var(--font-crimson,Georgia,serif)];
+  }
+
+  .font-mono {
+    @apply font-[family-name:var(--font-mono,monospace)];
+  }
+
+  .tracking-luxe {
+    letter-spacing: 0.15em;
+  }
+
+  /* Glassmorphic backgrounds */
+  .glass-dark {
+    @apply bg-[rgba(26,24,21,0.4)] backdrop-blur-lg border border-[rgba(201,152,94,0.1)];
+  }
+
+  .glass-light {
+    @apply bg-[rgba(250,248,243,0.1)] backdrop-blur-lg border border-[rgba(201,152,94,0.1)];
+  }
+
+  /* Text utilities */
+  .text-gold {
+    @apply text-[var(--color-gold)];
+  }
+
+  .text-gold-bright {
+    @apply text-[var(--color-gold-bright)];
+  }
+
+  .text-bone {
+    @apply text-[var(--color-bone)];
+  }
+
+  .text-ivory {
+    @apply text-[var(--color-ivory)];
+  }
+
+  /* Background utilities */
+  .bg-ink {
+    @apply bg-[var(--color-ink)];
+  }
+
+  .bg-obsidian {
+    @apply bg-[var(--color-obsidian)];
+  }
+
+  .border-hairline {
+    @apply border-[var(--color-hairline)];
+  }
+
+  .border-gold {
+    @apply border-[var(--color-gold)];
+  }
+}
+
+/* Animations for smooth entrance */
+@supports (animation: auto) {
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+  }
+}
