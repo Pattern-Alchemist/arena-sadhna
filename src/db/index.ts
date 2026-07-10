@@ -1,14 +1,16 @@
 import 'server-only';
-import { PrismaClient } from '@prisma/client';
+import { drizzle } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
 
 const globalForDb = globalThis as unknown as {
-  prisma: PrismaClient | undefined;
+  db: ReturnType<typeof drizzle> | undefined;
 };
 
-export const prisma =
-  globalForDb.prisma ??
-  new PrismaClient({
-    log: ['query'],
-  });
+if (!process.env.DATABASE_URL) {
+  throw new Error('DATABASE_URL is not set');
+}
 
-if (process.env.NODE_ENV !== 'production') globalForDb.prisma = prisma;
+const client = postgres(process.env.DATABASE_URL);
+export const db = globalForDb.db ?? drizzle(client);
+
+if (process.env.NODE_ENV !== 'production') globalForDb.db = db;
