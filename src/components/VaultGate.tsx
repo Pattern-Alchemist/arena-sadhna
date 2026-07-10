@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { useVault } from "./VaultProvider";
 import { OmGlyph } from "./Symbols";
 
@@ -15,18 +16,27 @@ import { OmGlyph } from "./Symbols";
  * browsing works without any passphrase.
  */
 export default function VaultGate({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
   const { status, isHydrated } = useVault();
   const [showGate, setShowGate] = useState(false);
 
+  // Public routes that skip vault gate
+  const isPublic = pathname === "/" || pathname.startsWith("/warriors-journey") || pathname.startsWith("/pattern-audit") || pathname.startsWith("/karmic-blueprint") || pathname.startsWith("/dharma-navigation");
+
   // Only show the gate after hydration to avoid SSR mismatch
   useEffect(() => {
-    if (isHydrated) {
+    if (isHydrated && !isPublic) {
       // Show gate only if vault is set up AND locked
       setShowGate(status === "locked");
     }
-  }, [isHydrated, status]);
+  }, [isHydrated, status, isPublic]);
 
   if (!isHydrated) {
+    return <>{children}</>;
+  }
+
+  // Skip gate entirely for public routes
+  if (isPublic) {
     return <>{children}</>;
   }
 

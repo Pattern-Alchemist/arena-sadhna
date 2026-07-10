@@ -59,10 +59,10 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
     <html lang="en" className={`${cormorant.variable} ${crimson.variable}`} data-lens="scholar">
       <body className="min-h-screen font-body antialiased">
         <RitualMotionConfig>
-          <AmbientBackground />
           <ServiceWorkerRegister />
           <VaultProvider>
             <VaultGate>
+              <AmbientBackground />
               <SiteNav siddhiSlugs={slugs} />
               <main className="content-z relative">{children}</main>
               <Footer />

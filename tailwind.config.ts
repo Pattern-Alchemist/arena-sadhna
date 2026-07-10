@@ -5,6 +5,10 @@ export default {
   theme: {
     extend: {
       colors: {
+        void: '#0B0B0B',
+        'deep-gray': '#111827',
+        'stellar-gold': '#D4AF37',
+        'lunar-white': '#F5F3F0',
         ivory: 'var(--color-ivory)',
         bone: 'var(--color-bone)',
         hairline: 'var(--color-hairline)',
@@ -18,9 +22,14 @@ export default {
         foreground: 'var(--color-foreground)',
       },
       fontFamily: {
-        display: 'var(--font-display)',
-        body: 'var(--font-body)',
+        display: ['Cormorant Garamond', 'serif'],
+        body: ['Inter', 'sans-serif'],
         mono: 'var(--font-mono)',
+      },
+      fontSize: {
+        monumental: 'clamp(6rem, 24vw, 22rem)',
+        'editorial-xl': 'clamp(3rem, 12vw, 8rem)',
+        'editorial-lg': 'clamp(2rem, 8vw, 5rem)',
       },
       backgroundColor: {
         base: 'var(--color-background)',
