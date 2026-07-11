@@ -5,37 +5,62 @@ export default {
   theme: {
     extend: {
       colors: {
-        void: '#0B0B0B',
-        'deep-gray': '#111827',
-        'stellar-gold': '#D4AF37',
-        'lunar-white': '#F5F3F0',
+        // Premium color palette
+        cream: 'var(--color-cream)',
         ivory: 'var(--color-ivory)',
-        bone: 'var(--color-bone)',
-        hairline: 'var(--color-hairline)',
-        ink: 'var(--color-ink)',
-        obsidian: 'var(--color-obsidian)',
+        beige: 'var(--color-beige)',
+        taupe: 'var(--color-taupe)',
+        charcoal: 'var(--color-charcoal)',
+        navy: 'var(--color-navy)',
+        terracotta: 'var(--color-terracotta)',
         gold: 'var(--color-gold)',
-        'gold-bright': 'var(--color-gold-bright)',
-        'gold-deep': 'var(--color-gold-deep)',
-        'rose-accent': 'var(--color-rose-accent)',
+        slate: 'var(--color-slate)',
+        
+        // Semantic colors
         background: 'var(--color-background)',
         foreground: 'var(--color-foreground)',
+        accent: 'var(--color-accent)',
+        secondary: 'var(--color-secondary)',
       },
       fontFamily: {
-        display: ['Cormorant Garamond', 'serif'],
-        body: ['Inter', 'sans-serif'],
+        display: 'var(--font-display)',
+        body: 'var(--font-body)',
         mono: 'var(--font-mono)',
       },
-      fontSize: {
-        monumental: 'clamp(6rem, 24vw, 22rem)',
-        'editorial-xl': 'clamp(3rem, 12vw, 8rem)',
-        'editorial-lg': 'clamp(2rem, 8vw, 5rem)',
+      animation: {
+        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+        'fade-in': 'fadeIn 0.6s ease-out forwards',
+        'scale-in': 'scaleIn 0.7s ease-out forwards',
       },
-      backgroundColor: {
-        base: 'var(--color-background)',
-      },
-      textColor: {
-        base: 'var(--color-foreground)',
+      keyframes: {
+        fadeInUp: {
+          'from': {
+            opacity: '0',
+            transform: 'translateY(24px)',
+          },
+          'to': {
+            opacity: '1',
+            transform: 'translateY(0)',
+          },
+        },
+        fadeIn: {
+          'from': {
+            opacity: '0',
+          },
+          'to': {
+            opacity: '1',
+          },
+        },
+        scaleIn: {
+          'from': {
+            opacity: '0',
+            transform: 'scale(0.95)',
+          },
+          'to': {
+            opacity: '1',
+            transform: 'scale(1)',
+          },
+        },
       },
     },
   },
