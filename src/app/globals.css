@@ -5,47 +5,88 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Lora:wght@400;500;600&display=swap');
 
 :root {
-  --font-body: 'Lora', 'Georgia', serif;
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
   --font-display: 'Playfair Display', serif;
   --font-mono: 'SF Mono', Monaco, monospace;
 
-  /* Premium Oscar-worthy palette */
-  --color-cream: #F9F6F1;
-  --color-ivory: #FAF8F3;
-  --color-beige: #E8E4DC;
-  --color-taupe: #8B8680;
-  --color-charcoal: #2C2C2C;
-  --color-navy: #1B2B3D;
-  --color-terracotta: #C67C4E;
-  --color-gold: #D4AF37;
-  --color-slate: #495057;
+  /* Modern Neon/Cyberpunk Palette */
+  --color-background: #0a0e27;
+  --color-surface: #0f1437;
+  --color-foreground: #e0f2ff;
+  
+  /* Neon Accents */
+  --color-cyan: #00f0ff;
+  --color-magenta: #ff006e;
+  --color-lime: #39ff14;
+  --color-purple: #b500ff;
+  --color-pink: #ff10f0;
+  --color-blue: #0088ff;
+  
+  /* Secondary */
+  --color-dark-gray: #1a1f3a;
+  --color-light-gray: #8899aa;
+  --color-white: #ffffff;
   
   /* Semantic tokens */
-  --color-background: #F9F6F1;
-  --color-foreground: #2C2C2C;
-  --color-accent: #C67C4E;
-  --color-secondary: #1B2B3D;
+  --color-accent: #00f0ff;
+  --color-secondary: #ff006e;
+  --color-success: #39ff14;
+}
+
+@keyframes glow {
+  0%, 100% { text-shadow: 0 0 10px var(--color-accent), 0 0 20px var(--color-accent); }
+  50% { text-shadow: 0 0 20px var(--color-accent), 0 0 40px var(--color-accent), 0 0 60px var(--color-accent); }
+}
+
+@keyframes pulse-neon {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes cyber-glitch {
+  0%, 100% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
 }
 
 @layer base {
   * {
-    @apply border-[rgba(198,124,78,0.1)];
+    @apply border-[rgba(0,240,255,0.2)];
   }
 
   html {
-    @apply bg-cream text-charcoal;
+    @apply bg-[var(--color-background)] text-[var(--color-foreground)];
     scroll-behavior: smooth;
   }
 
   body {
-    @apply font-body text-base antialiased text-charcoal;
-    background-color: #F9F6F1;
+    @apply font-body text-base antialiased text-[var(--color-foreground)];
+    background: linear-gradient(135deg, #0a0e27 0%, #1a0f3a 50%, #0a1f3a 100%);
+    background-attachment: fixed;
     position: relative;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 50%, rgba(0, 240, 255, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(255, 1, 110, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-display font-semibold tracking-tight;
-    color: var(--color-charcoal);
+    color: var(--color-cyan);
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
   }
 
   h1 {

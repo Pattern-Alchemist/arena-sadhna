@@ -1,232 +1,129 @@
 import React from 'react';
 import Link from 'next/link';
 
-export default function PremiumHomepage() {
+export default function NeonHomepage() {
   return (
-    <div className="bg-cream text-charcoal">
+    <div className="min-h-screen bg-[var(--color-background)] text-[var(--color-foreground)]">
       {/* Hero Section */}
-      <section className="section-hero min-h-[90vh] bg-gradient-to-b from-cream via-beige to-cream px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-5xl">
-          {/* Subtle line decoration */}
-          <div className="mb-12 flex justify-center pt-20">
-            <div className="h-px w-16 bg-gradient-to-r from-transparent via-terracotta to-transparent"></div>
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 pt-20">
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-[var(--color-cyan)] rounded-full mix-blend-screen opacity-20 blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-[var(--color-magenta)] rounded-full mix-blend-screen opacity-20 blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+          <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-[var(--color-purple)] rounded-full mix-blend-screen opacity-10 blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
+        </div>
+
+        <div className="relative z-10 max-w-5xl mx-auto text-center">
+          <div className="mb-8">
+            <span className="text-sm tracking-widest text-[var(--color-cyan)] uppercase font-mono">
+              // Welcome to the future
+            </span>
           </div>
 
-          {/* Main headline */}
-          <h1 className="animate-fade-in-up text-center font-display text-5xl md:text-7xl font-semibold tracking-tight-premium text-charcoal mb-6">
-            The Archive
-            <br />
-            <span className="text-terracotta">of Becoming</span>
+          <h1 className="text-6xl md:text-8xl font-display font-bold mb-6 tracking-tighter">
+            <span className="text-[var(--color-cyan)]">ASTRO</span>
+            <span className="text-[var(--color-white)]">KALKI</span>
+            <br/>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-cyan)] via-[var(--color-magenta)] to-[var(--color-pink)]" style={{textShadow: '0 0 30px rgba(0, 240, 255, 0.8), 0 0 60px rgba(255, 1, 110, 0.6)'}}>
+              ARCHIVE
+            </span>
           </h1>
 
-          {/* Subheadline */}
-          <p className="animate-fade-in-up mx-auto max-w-2xl text-center text-lg md:text-xl text-slate mt-8 mb-12" style={{ animationDelay: '0.2s' }}>
-            Discover the patterns encoded in your lineage. Understand the wisdom your soul has been trying to teach you across lifetimes.
+          <p className="text-xl md:text-2xl font-mono text-[var(--color-light-gray)] mb-12 leading-relaxed max-w-3xl mx-auto">
+            Decode the patterns. Unlock your potential. <br/>
+            <span className="text-[var(--color-lime)]">// The wisdom you need is already within</span>
           </p>
 
-          {/* CTA Buttons */}
-          <div className="animate-fade-in-up flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 mt-12" style={{ animationDelay: '0.4s' }}>
-            <Link href="/unlock" className="btn-primary">
-              Unlock Your Archive
-            </Link>
-            <Link href="/explore" className="btn-secondary">
-              Explore Freely
-            </Link>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            <a href="/unlock" className="group relative px-8 py-4 text-lg font-mono font-bold text-[var(--color-background)] bg-[var(--color-cyan)] border-2 border-[var(--color-cyan)] rounded-none overflow-hidden transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,240,255,0.8)]">
+              <span className="relative z-10">ENTER ARCHIVE</span>
+              <div className="absolute inset-0 bg-[var(--color-magenta)] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+            </a>
+
+            <a href="/explore" className="px-8 py-4 text-lg font-mono font-bold text-[var(--color-cyan)] border-2 border-[var(--color-cyan)] rounded-none bg-transparent hover:bg-[rgba(0,240,255,0.1)] transition-all duration-300">
+              EXPLORE FREE
+            </a>
           </div>
 
-          {/* Scroll indicator */}
-          <div className="animate-fade-in mt-20 flex justify-center" style={{ animationDelay: '0.6s' }}>
-            <div className="text-center text-sm text-taupe tracking-luxe">
-              <p>SCROLL TO DISCOVER</p>
-              <div className="mt-4 text-2xl opacity-50">↓</div>
-            </div>
+          <div className="mt-20 text-center">
+            <p className="text-[var(--color-light-gray)] font-mono text-sm">SCROLL_DOWN_TO_CONTINUE</p>
+            <div className="mt-4 text-2xl animate-bounce">↓</div>
           </div>
         </div>
       </section>
 
-      {/* Gallery Section - Premium Visual Story */}
-      <section className="space-section px-4 sm:px-6 lg:px-8 bg-cream">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-16 space-y-3 text-center">
-            <p className="text-sm tracking-luxe text-terracotta uppercase">How It Works</p>
-            <h2 className="font-display text-4xl md:text-5xl text-charcoal">Your Personal Cipher</h2>
+      {/* Features Section */}
+      <section className="relative py-32 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-20">
+            <h2 className="text-5xl md:text-6xl font-display font-bold mb-4">
+              <span className="text-[var(--color-magenta)]">NEXT GEN</span> <span className="text-[var(--color-cyan)]">WISDOM</span>
+            </h2>
+            <p className="text-[var(--color-light-gray)] font-mono text-lg">Ancient knowledge. Modern interface. Zero compromise.</p>
           </div>
 
-          {/* Three column gallery layout */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6">
-            {/* Column 1 */}
-            <div className="flex flex-col gap-6">
-              <div className="aspect-square bg-gradient-to-br from-terracotta/20 to-navy/5 rounded-sm overflow-hidden">
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="text-5xl font-display text-terracotta mb-2">I</div>
-                    <p className="text-sm text-slate">Select</p>
-                  </div>
-                </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { icon: '◈', title: 'QUANTUM VAULT', desc: 'End-to-end encrypted. Only you control access.' },
+              { icon: '✦', title: 'NEURAL SYNC', desc: 'AI-powered insights aligned with your journey.' },
+              { icon: '⚡', title: 'REAL TIME FLOW', desc: 'Track patterns. Watch transformations unfold.' }
+            ].map((feature, i) => (
+              <div key={i} className="group p-6 border-2 border-[var(--color-cyan)] bg-[rgba(0,240,255,0.05)] hover:bg-[rgba(0,240,255,0.1)] rounded-none transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,240,255,0.5)]">
+                <div className="text-3xl mb-4 text-[var(--color-magenta)] group-hover:text-[var(--color-cyan)] transition-colors">{feature.icon}</div>
+                <h3 className="text-xl font-bold font-display text-[var(--color-cyan)] mb-2 uppercase">{feature.title}</h3>
+                <p className="text-[var(--color-light-gray)] font-mono text-sm leading-relaxed">{feature.desc}</p>
               </div>
-              <p className="text-slate leading-relaxed">Choose from patterns, practices, and archetypes that resonate with your journey.</p>
-            </div>
-
-            {/* Column 2 */}
-            <div className="flex flex-col gap-6">
-              <div className="aspect-square bg-gradient-to-br from-navy/5 to-terracotta/20 rounded-sm overflow-hidden">
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="text-5xl font-display text-navy mb-2">II</div>
-                    <p className="text-sm text-slate">Understand</p>
-                  </div>
-                </div>
-              </div>
-              <p className="text-slate leading-relaxed">Receive personalized wisdom encoded from ancient traditions and modern psychology.</p>
-            </div>
-
-            {/* Column 3 */}
-            <div className="flex flex-col gap-6">
-              <div className="aspect-square bg-gradient-to-br from-beige to-taupe/10 rounded-sm overflow-hidden">
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="text-5xl font-display text-charcoal mb-2">III</div>
-                    <p className="text-sm text-slate">Transform</p>
-                  </div>
-                </div>
-              </div>
-              <p className="text-slate leading-relaxed">Apply these insights to navigate your becoming with clarity and purpose.</p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Divider */}
-      <div className="px-4 sm:px-6 lg:px-8">
-        <div className="divider mx-auto max-w-7xl"></div>
-      </div>
-
-      {/* Split Section - Philosophy */}
-      <section className="space-section px-4 sm:px-6 lg:px-8 bg-cream">
-        <div className="mx-auto max-w-7xl">
-          <div className="section-split min-h-96">
-            {/* Left: Text */}
-            <div className="flex flex-col justify-center py-12 md:py-0 md:pr-12 lg:pr-16">
-              <p className="text-xs tracking-luxe text-terracotta uppercase mb-6">The Philosophy</p>
-              <h2 className="font-display text-4xl md:text-5xl text-charcoal mb-6">What Has Been Trying to Speak Through You</h2>
-              <p className="text-slate text-lg leading-relaxed mb-6">
-                Every life pattern, every recurring challenge, every moment of transcendence—they are signatures of your soul&apos;s curriculum. The Archive doesn&apos;t promise easy answers. It offers something more valuable: clarity about what you&apos;re meant to become.
-              </p>
-              <div className="mt-2">
-                <Link href="/about" className="inline-flex items-center text-terracotta font-semibold hover:text-navy transition-colors">
-                  Learn More →
-                </Link>
-              </div>
-            </div>
-
-            {/* Right: Visual */}
-            <div className="hidden md:flex items-center justify-center">
-              <div className="w-full h-full bg-gradient-to-br from-terracotta/10 to-navy/5 rounded-sm flex items-center justify-center min-h-96">
-                <div className="text-center">
-                  <div className="text-6xl text-taupe/30 mb-4">∞</div>
-                  <p className="text-sm text-taupe tracking-luxe uppercase">Infinite Becoming</p>
-                </div>
-              </div>
-            </div>
+      {/* CTA Section */}
+      <section className="relative py-32 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="border-2 border-[var(--color-magenta)] p-12 bg-[rgba(255,1,110,0.05)] rounded-none">
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-6 text-[var(--color-magenta)]">
+              READY TO DECODE?
+            </h2>
+            <p className="text-[var(--color-light-gray)] font-mono text-lg mb-8">
+              Your personal cipher awaits. Unlock patterns that have shaped your life.
+            </p>
+            <a href="/unlock" className="inline-block px-12 py-4 text-lg font-mono font-bold text-[var(--color-background)] bg-[var(--color-magenta)] border-2 border-[var(--color-magenta)] rounded-none hover:shadow-[0_0_30px_rgba(255,1,110,0.8)] transition-all duration-300">
+              BEGIN TRANSMISSION
+            </a>
           </div>
         </div>
       </section>
 
-      {/* Divider */}
-      <div className="px-4 sm:px-6 lg:px-8">
-        <div className="divider mx-auto max-w-7xl"></div>
-      </div>
-
-      {/* Features Grid */}
-      <section className="space-section px-4 sm:px-6 lg:px-8 bg-cream">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-16 text-center">
-            <p className="text-sm tracking-luxe text-terracotta uppercase mb-4">Features</p>
-            <h2 className="font-display text-4xl md:text-5xl text-charcoal">Everything You Need</h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-            {/* Feature 1 */}
-            <div className="border-l-2 border-terracotta pl-6">
-              <h3 className="font-display text-2xl text-charcoal mb-3">Personal Vault</h3>
-              <p className="text-slate">End-to-end encrypted storage for your most private insights and patterns. Only you hold the key.</p>
-            </div>
-
-            {/* Feature 2 */}
-            <div className="border-l-2 border-navy pl-6">
-              <h3 className="font-display text-2xl text-charcoal mb-3">Wisdom Library</h3>
-              <p className="text-slate">Curated teachings from lineages, psychology, and contemporary insight designed for modern souls.</p>
-            </div>
-
-            {/* Feature 3 */}
-            <div className="border-l-2 border-terracotta pl-6">
-              <h3 className="font-display text-2xl text-charcoal mb-3">Tracking Tools</h3>
-              <p className="text-slate">Monitor your patterns, rituals, and transformations. Watch yourself evolve with intentionality.</p>
-            </div>
-
-            {/* Feature 4 */}
-            <div className="border-l-2 border-navy pl-6">
-              <h3 className="font-display text-2xl text-charcoal mb-3">Living Practices</h3>
-              <p className="text-slate">Daily rituals, meditations, and embodied practices that meet you where you are on your journey.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Divider */}
-      <div className="px-4 sm:px-6 lg:px-8">
-        <div className="divider mx-auto max-w-7xl"></div>
-      </div>
-
-      {/* Final CTA */}
-      <section className="space-section px-4 sm:px-6 lg:px-8 bg-cream">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="font-display text-4xl md:text-5xl text-charcoal mb-6">Begin Your Becoming</h2>
-          <p className="text-lg text-slate mb-10">
-            The archive is waiting. Not with judgment, but with infinite patience and the wisdom of a thousand lifetimes.
-          </p>
-          <Link href="/unlock" className="btn-accent">
-            Enter the Archive
-          </Link>
-        </div>
-      </section>
-
-      {/* Footer Minimal */}
-      <footer className="border-t border-beige px-4 sm:px-6 lg:px-8 py-12 bg-white/30">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      {/* Footer */}
+      <footer className="relative py-12 px-4 border-t-2 border-[var(--color-cyan)]/30">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
             <div>
-              <p className="font-display text-sm font-semibold text-charcoal mb-4">AstroKalki</p>
-              <p className="text-xs text-taupe">The archive of your becoming.</p>
+              <div className="text-2xl font-bold mb-2">
+                <span className="text-[var(--color-cyan)]">A</span><span className="text-[var(--color-magenta)]">K</span>
+              </div>
+              <p className="text-[var(--color-light-gray)] font-mono text-sm">Decode your becoming.</p>
             </div>
-            <div>
-              <p className="text-xs font-semibold text-charcoal mb-3 uppercase tracking-luxe">Explore</p>
-              <ul className="space-y-2 text-xs text-slate">
-                <li><Link href="#" className="hover:text-terracotta">Archive</Link></li>
-                <li><Link href="#" className="hover:text-terracotta">Practices</Link></li>
-                <li><Link href="#" className="hover:text-terracotta">Teachings</Link></li>
-              </ul>
-            </div>
-            <div>
-              <p className="text-xs font-semibold text-charcoal mb-3 uppercase tracking-luxe">Learn</p>
-              <ul className="space-y-2 text-xs text-slate">
-                <li><Link href="#" className="hover:text-terracotta">About</Link></li>
-                <li><Link href="#" className="hover:text-terracotta">Philosophy</Link></li>
-                <li><Link href="#" className="hover:text-terracotta">FAQ</Link></li>
-              </ul>
-            </div>
-            <div>
-              <p className="text-xs font-semibold text-charcoal mb-3 uppercase tracking-luxe">Connect</p>
-              <ul className="space-y-2 text-xs text-slate">
-                <li><Link href="#" className="hover:text-terracotta">Privacy</Link></li>
-                <li><Link href="#" className="hover:text-terracotta">Terms</Link></li>
-                <li><Link href="#" className="hover:text-terracotta">Contact</Link></li>
-              </ul>
-            </div>
+            {[
+              { title: 'EXPLORE', links: ['Archive', 'Practices', 'Teachings'] },
+              { title: 'LEARN', links: ['About', 'Philosophy', 'FAQ'] },
+              { title: 'CONNECT', links: ['Privacy', 'Terms', 'Contact'] }
+            ].map((col, i) => (
+              <div key={i}>
+                <p className="text-[var(--color-cyan)] font-mono text-xs uppercase tracking-widest mb-4">{col.title}</p>
+                <ul className="space-y-2">
+                  {col.links.map((link, j) => (
+                    <li key={j}><a href="#" className="text-[var(--color-light-gray)] hover:text-[var(--color-lime)] transition-colors font-mono text-sm">{link}</a></li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
-          <div className="divider"></div>
-          <div className="mt-8 text-center text-xs text-taupe">
-            <p>© 2026 AstroKalki. All patterns preserved.</p>
+
+          <div className="border-t border-[var(--color-cyan)]/30 pt-8 text-center">
+            <p className="text-[var(--color-light-gray)] font-mono text-xs">
+              © 2026 ASTROKALKI. Patterns preserved. Future-proof.
+            </p>
           </div>
         </div>
       </footer>
