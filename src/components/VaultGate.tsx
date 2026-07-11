@@ -20,8 +20,8 @@ export default function VaultGate({ children }: { children: React.ReactNode }) {
   const { status, isHydrated } = useVault();
   const [showGate, setShowGate] = useState(false);
 
-  // Public routes that skip vault gate
-  const isPublic = pathname === "/" || pathname.startsWith("/warriors-journey") || pathname.startsWith("/pattern-audit") || pathname.startsWith("/karmic-blueprint") || pathname.startsWith("/dharma-navigation");
+  // Public routes that skip vault gate - allow all browsing without unlock
+  const isPublic = true;
 
   // Only show the gate after hydration to avoid SSR mismatch
   useEffect(() => {
