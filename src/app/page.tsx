@@ -34,14 +34,14 @@ export default function NeonHomepage() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <a href="/unlock" className="group relative px-8 py-4 text-lg font-mono font-bold text-[var(--color-background)] bg-[var(--color-cyan)] border-2 border-[var(--color-cyan)] rounded-none overflow-hidden transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,240,255,0.8)]">
+            <Link href="/archive" className="group relative px-8 py-4 text-lg font-mono font-bold text-[var(--color-background)] bg-[var(--color-cyan)] border-2 border-[var(--color-cyan)] rounded-none overflow-hidden transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,240,255,0.8)]">
               <span className="relative z-10">ENTER ARCHIVE</span>
               <div className="absolute inset-0 bg-[var(--color-magenta)] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-            </a>
+            </Link>
 
-            <a href="/explore" className="px-8 py-4 text-lg font-mono font-bold text-[var(--color-cyan)] border-2 border-[var(--color-cyan)] rounded-none bg-transparent hover:bg-[rgba(0,240,255,0.1)] transition-all duration-300">
+            <Link href="/manuscripts" className="px-8 py-4 text-lg font-mono font-bold text-[var(--color-cyan)] border-2 border-[var(--color-cyan)] rounded-none bg-transparent hover:bg-[rgba(0,240,255,0.1)] transition-all duration-300">
               EXPLORE FREE
-            </a>
+            </Link>
           </div>
 
           <div className="mt-20 text-center">
@@ -87,9 +87,9 @@ export default function NeonHomepage() {
             <p className="text-[var(--color-light-gray)] font-mono text-lg mb-8">
               Your personal cipher awaits. Unlock patterns that have shaped your life.
             </p>
-            <a href="/unlock" className="inline-block px-12 py-4 text-lg font-mono font-bold text-[var(--color-background)] bg-[var(--color-magenta)] border-2 border-[var(--color-magenta)] rounded-none hover:shadow-[0_0_30px_rgba(255,1,110,0.8)] transition-all duration-300">
+            <Link href="/archive" className="inline-block px-12 py-4 text-lg font-mono font-bold text-[var(--color-background)] bg-[var(--color-magenta)] border-2 border-[var(--color-magenta)] rounded-none hover:shadow-[0_0_30px_rgba(255,1,110,0.8)] transition-all duration-300">
               BEGIN TRANSMISSION
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -105,15 +105,15 @@ export default function NeonHomepage() {
               <p className="text-[var(--color-light-gray)] font-mono text-sm">Decode your becoming.</p>
             </div>
             {[
-              { title: 'EXPLORE', links: ['Archive', 'Practices', 'Teachings'] },
-              { title: 'LEARN', links: ['About', 'Philosophy', 'FAQ'] },
-              { title: 'CONNECT', links: ['Privacy', 'Terms', 'Contact'] }
+              { title: 'EXPLORE', links: [{ label: 'Archive', href: '/archive' }, { label: 'Practices', href: '/ritual' }, { label: 'Teachings', href: '/wisdom' }] },
+              { title: 'LEARN', links: [{ label: 'Manuscripts', href: '/manuscripts' }, { label: 'Courses', href: '/knowledge' }, { label: 'Glossary', href: '/glossary' }] },
+              { title: 'TOOLS', links: [{ label: 'Journal', href: '/journal' }, { label: 'Calendar', href: '/calendar' }, { label: 'Yantras', href: '/yantras' }] }
             ].map((col, i) => (
               <div key={i}>
                 <p className="text-[var(--color-cyan)] font-mono text-xs uppercase tracking-widest mb-4">{col.title}</p>
                 <ul className="space-y-2">
                   {col.links.map((link, j) => (
-                    <li key={j}><a href="#" className="text-[var(--color-light-gray)] hover:text-[var(--color-lime)] transition-colors font-mono text-sm">{link}</a></li>
+                    <li key={j}><Link href={link.href} className="text-[var(--color-light-gray)] hover:text-[var(--color-lime)] transition-colors font-mono text-sm">{link.label}</Link></li>
                   ))}
                 </ul>
               </div>
