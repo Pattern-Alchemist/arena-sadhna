@@ -1,7 +1,6 @@
 {
   "/page": "app/page.js",
-  "/archive/page": "app/archive/page.js",
   "/_not-found/page": "app/_not-found/page.js",
   "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js",
-  "/siddhi/[slug]/page": "app/siddhi/[slug]/page.js"
+  "/wisdom/page": "app/wisdom/page.js"
 }
