@@ -1,213 +1,235 @@
-"use client";
+import React from 'react';
+import Link from 'next/link';
 
-import { useState, useEffect, useMemo } from "react";
-import Link from "next/link";
-import { useVaultData, type JournalEntry, type CycleEntry } from "@/components/useVaultData";
-import { DEITY_ROTATION, getCurrentSeason, getDailyQuote, QUOTES } from "@/lib/practice-data";
-import { OmGlyph, SriYantraGlyph, FlourishDivider, BinduSun, LotusGlyph } from "@/components/Symbols";
-import AnimatedSriCakra from "@/components/AnimatedSriCakra";
-
-// Lunar tithi computation (same as calendar page)
-function computeTithi(date: Date) {
-  const refNewMoon = new Date("2000-01-06T18:14:00Z").getTime();
-  const lunarCycle = 29.530588853 * 24 * 60 * 60 * 1000;
-  const elapsed = date.getTime() - refNewMoon;
-  const cyclePos = ((elapsed % lunarCycle) + lunarCycle) % lunarCycle;
-  const tithiNumber = Math.floor((cyclePos / lunarCycle) * 30) + 1;
-  const paksha: "śukla" | "kṛṣṇa" = tithiNumber <= 15 ? "śukla" : "kṛṣṇa";
-  const isAmavasya = tithiNumber === 30;
-  const isPurnima = tithiNumber === 15;
-  const tithiInPaksha = tithiNumber <= 15 ? tithiNumber : tithiNumber - 15;
-  const display = isAmavasya ? "Amāvasyā" : isPurnima ? "Pūrṇimā" : `${paksha === "śukla" ? "Śukla" : "Kṛṣṇa"} ${tithiInPaksha}`;
-  let note = "";
-  if (isAmavasya) note = "Kālī · ancestor offerings";
-  else if (isPurnima) note = "Śrī Vidyā · satvik practices";
-  else if (paksha === "kṛṣṇa" && tithiInPaksha === 8) note = "Dhūmāvatī · protective";
-  else if (paksha === "kṛṣṇa" && tithiInPaksha === 14) note = "Preta-Siddhi timing";
-  else if (paksha === "śukla" && tithiInPaksha === 7) note = "Healing · Mahāmṛtyuñjaya";
-  else if (paksha === "śukla" && tithiInPaksha === 11) note = "Ekādaśī · fasting";
-  else note = paksha === "śukla" ? "Waxing — building practices" : "Waning — introspective";
-  return { display, note, tithiNumber, paksha, isAmavasya, isPurnima };
-}
-
-export default function DashboardPage() {
-  const { data: entries } = useVaultData<JournalEntry[]>("journal", []);
-  const { data: cycles } = useVaultData<CycleEntry[]>("cycles", []);
-  const { data: sankalpas } = useVaultData<{id:string;text:string;pinned:boolean}[]>("sankalpas", []);
-
-  const now = new Date();
-  const today = now.toISOString().slice(0, 10);
-  const weekday = now.getDay();
-  const deity = DEITY_ROTATION[weekday];
-  const tithi = useMemo(() => computeTithi(now), []);
-  const season = getCurrentSeason();
-  const quote = getDailyQuote();
-
-  // Streak
-  const dates = new Set(entries.map((e) => e.date));
-  let streak = 0;
-  let cursor = new Date(now);
-  cursor.setHours(0, 0, 0, 0);
-  if (!dates.has(cursor.toISOString().slice(0, 10))) {
-    cursor.setDate(cursor.getDate() - 1);
-  }
-  while (dates.has(cursor.toISOString().slice(0, 10))) {
-    streak++;
-    cursor.setDate(cursor.getDate() - 1);
-  }
-
-  // Active cycle
-  const activeCycle = cycles.find((c) => c.status === "active");
-  const cycleCheckIns = activeCycle ? Object.values(activeCycle.checkIns).filter(Boolean).length : 0;
-  const cycleNeedsCheckIn = activeCycle && !activeCycle.checkIns[today];
-
-  // Pinned sankalpa
-  const pinnedSankalpa = sankalpas.find((s) => s.pinned);
-
-  // Quick actions
-  const quickActions = [
-    { href: "/ritual", label: "Ritual", icon: "🪔" },
-    { href: "/japa", label: "Japa", icon: "📿" },
-    { href: "/breath", label: "Breath", icon: "🌬️" },
-    { href: "/timer", label: "Meditate", icon: "⏱️" },
-    { href: "/journal", label: "Journal", icon: "📓" },
-    { href: "/ambience", label: "Ambience", icon: "🎵" },
-  ];
-
+export default function PremiumHomepage() {
   return (
-    <div className="min-h-screen">
-      {/* Hero — compact */}
-      <section className="relative overflow-hidden border-b border-[var(--color-hairline)] py-12 sm:py-16">
-        <div className="absolute inset-0 opacity-[0.04]">
-          <div className="yantra-bg-spin absolute left-1/2 top-1/2 h-[120vh] w-[120vh] -translate-x-1/2 -translate-y-1/2">
-            <div className="absolute inset-0 rounded-full border border-[var(--color-gold)]" />
-            <div className="absolute inset-[20%] rounded-full border border-[var(--color-gold)]" />
-            <div className="absolute inset-[40%] rounded-full border border-[var(--color-gold)]" />
+    <div className="bg-cream text-charcoal">
+      {/* Hero Section */}
+      <section className="section-hero min-h-[90vh] bg-gradient-to-b from-cream via-beige to-cream px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-5xl">
+          {/* Subtle line decoration */}
+          <div className="mb-12 flex justify-center pt-20">
+            <div className="h-px w-16 bg-gradient-to-r from-transparent via-terracotta to-transparent"></div>
           </div>
-        </div>
-        <div className="content-z relative mx-auto max-w-4xl px-4 text-center sm:px-8">
-          <div className="mb-4">
-            <AnimatedSriCakra />
-          </div>
-          <p className="fade-up text-[0.55rem] uppercase tracking-luxe text-[var(--color-gold)] sm:text-[0.6rem]">
-            {now.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
-          </p>
-          <h1 className="fade-up mt-3 font-display text-[1.75rem] font-medium leading-tight text-balance text-[var(--color-ivory)] sm:text-4xl">
-            Your Practice Dashboard
+
+          {/* Main headline */}
+          <h1 className="animate-fade-in-up text-center font-display text-5xl md:text-7xl font-semibold tracking-tight-premium text-charcoal mb-6">
+            The Archive
+            <br />
+            <span className="text-terracotta">of Becoming</span>
           </h1>
+
+          {/* Subheadline */}
+          <p className="animate-fade-in-up mx-auto max-w-2xl text-center text-lg md:text-xl text-slate mt-8 mb-12" style={{ animationDelay: '0.2s' }}>
+            Discover the patterns encoded in your lineage. Understand the wisdom your soul has been trying to teach you across lifetimes.
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="animate-fade-in-up flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 mt-12" style={{ animationDelay: '0.4s' }}>
+            <Link href="/unlock" className="btn-primary">
+              Unlock Your Archive
+            </Link>
+            <Link href="/explore" className="btn-secondary">
+              Explore Freely
+            </Link>
+          </div>
+
+          {/* Scroll indicator */}
+          <div className="animate-fade-in mt-20 flex justify-center" style={{ animationDelay: '0.6s' }}>
+            <div className="text-center text-sm text-taupe tracking-luxe">
+              <p>SCROLL TO DISCOVER</p>
+              <div className="mt-4 text-2xl opacity-50">↓</div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Dashboard grid */}
-      <section className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {/* Gallery Section - Premium Visual Story */}
+      <section className="space-section px-4 sm:px-6 lg:px-8 bg-cream">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-16 space-y-3 text-center">
+            <p className="text-sm tracking-luxe text-terracotta uppercase">How It Works</p>
+            <h2 className="font-display text-4xl md:text-5xl text-charcoal">Your Personal Cipher</h2>
+          </div>
 
-          {/* Today's Tithi */}
-        <Link href="/calendar" className="group rounded-sm border border-[var(--hairline)] bg-[var(--color-ink)]/40 p-5 transition hover:border-[var(--color-gold)]/40">
-            <p className="text-[0.5rem] uppercase tracking-luxe text-[var(--color-gold)]">Lunar Tithi</p>
-            <p className="mt-2 font-display text-xl text-[var(--color-gold-bright)]">{tithi.display}</p>
-            <p className="mt-1 text-xs text-[var(--color-bone)]/60">{tithi.note}</p>
-          </Link>
-
-          {/* Deity of the day */}
-          <Link href="/deity" className="group rounded-sm border border-[var(--hairline)] bg-[var(--color-ink)]/40 p-5 transition hover:border-[var(--color-gold)]/40" style={{ borderColor: deity.color + "30" }}>
-            <p className="text-[0.5rem] uppercase tracking-luxe text-[var(--color-gold)]">Today's Deity</p>
-            <p className="mt-2 font-display text-xl" style={{ color: deity.color }}>{deity.name}</p>
-            <p className="mt-0.5 font-display text-xs text-[var(--color-gold)]/60">{deity.sanskrit}</p>
-          </Link>
-
-          {/* Streak */}
-          <Link href="/journal" className="group rounded-sm border border-[var(--hairline)] bg-[var(--color-ink)]/40 p-5 transition hover:border-[var(--color-gold)]/40">
-            <p className="text-[0.5rem] uppercase tracking-luxe text-[var(--color-gold)]">Practice Streak</p>
-            <p className="mt-2 font-display text-3xl text-[var(--color-gold-bright)]">{streak} <span className="text-sm text-[var(--color-bone)]/50">days</span></p>
-            <p className="mt-1 text-xs text-[var(--color-bone)]/60">{streak === 0 ? "Begin today →" : streak >= 41 ? "✦ 41-day milestone!" : `${41 - streak} days to 41-day milestone`}</p>
-          </Link>
-
-          {/* Active cycle */}
-          {activeCycle ? (
-            <Link href="/cycles" className="group rounded-sm border border-[var(--color-gold)]/30 bg-[var(--color-gold)]/5 p-5 transition hover:border-[var(--color-gold)]/50">
-              <p className="text-[0.5rem] uppercase tracking-luxe text-[var(--color-gold)]">Active Cycle</p>
-              <p className="mt-2 font-display text-lg text-[var(--color-gold-bright)]">{activeCycle.siddhiName}</p>
-              <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-[var(--color-obsidian)]">
-                <div className="h-full bg-gradient-to-r from-[var(--color-gold-deep)] to-[var(--color-gold-bright)]" style={{ width: `${(cycleCheckIns / activeCycle.targetDays) * 100}%` }} />
+          {/* Three column gallery layout */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6">
+            {/* Column 1 */}
+            <div className="flex flex-col gap-6">
+              <div className="aspect-square bg-gradient-to-br from-terracotta/20 to-navy/5 rounded-sm overflow-hidden">
+                <div className="w-full h-full flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="text-5xl font-display text-terracotta mb-2">I</div>
+                    <p className="text-sm text-slate">Select</p>
+                  </div>
+                </div>
               </div>
-              <p className="mt-1 text-xs text-[var(--color-bone)]/60">{cycleCheckIns}/{activeCycle.targetDays} days{cycleNeedsCheckIn ? " · ⚠ check in today" : " · ✓ checked in"}</p>
-            </Link>
-          ) : (
-            <Link href="/cycles" className="group rounded-sm border border-[var(--hairline)] bg-[var(--color-ink)]/40 p-5 transition hover:border-[var(--color-gold)]/40">
-              <p className="text-[0.5rem] uppercase tracking-luxe text-[var(--color-gold)]">Active Cycle</p>
-              <p className="mt-2 text-sm text-[var(--color-bone)]/55">No active cycle. Start one →</p>
-            </Link>
-          )}
+              <p className="text-slate leading-relaxed">Choose from patterns, practices, and archetypes that resonate with your journey.</p>
+            </div>
 
-          {/* Pinned saṅkalpa */}
-          {pinnedSankalpa ? (
-            <Link href="/sankalpa" className="group rounded-sm border border-[var(--color-hairline)] bg-[var(--color-ink)]/40 p-5 transition hover:border-[var(--color-gold)]/40">
-              <p className="text-[0.5rem] uppercase tracking-luxe text-[var(--color-gold)]">Saṅkalpa</p>
-              <p className="mt-2 text-sm italic leading-relaxed text-[var(--color-bone)]/75">{pinnedSankalpa.text}</p>
-            </Link>
-          ) : (
-            <Link href="/sankalpa" className="group rounded-sm border border-[var(--hairline)] bg-[var(--color-ink)]/40 p-5 transition hover:border-[var(--color-gold)]/40">
-              <p className="text-[0.5rem] uppercase tracking-luxe text-[var(--color-gold)]">Saṅkalpa</p>
-              <p className="mt-2 text-sm text-[var(--color-bone)]/55">Set your intention →</p>
-            </Link>
-          )}
+            {/* Column 2 */}
+            <div className="flex flex-col gap-6">
+              <div className="aspect-square bg-gradient-to-br from-navy/5 to-terracotta/20 rounded-sm overflow-hidden">
+                <div className="w-full h-full flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="text-5xl font-display text-navy mb-2">II</div>
+                    <p className="text-sm text-slate">Understand</p>
+                  </div>
+                </div>
+              </div>
+              <p className="text-slate leading-relaxed">Receive personalized wisdom encoded from ancient traditions and modern psychology.</p>
+            </div>
 
-          {/* Daily quote */}
-          <Link href="/quotes" className="group rounded-sm border border-[var(--hairline)] bg-[var(--color-ink)]/40 p-5 transition hover:border-[var(--color-gold)]/40">
-            <p className="text-[0.5rem] uppercase tracking-luxe text-[var(--color-gold)]">Today's Quote</p>
-            <p className="mt-2 text-xs italic leading-relaxed text-[var(--color-bone)]/75">"{quote.text}"</p>
-            <p className="mt-1 text-[0.5rem] text-[var(--color-gold-bright)]">— {quote.source}</p>
-          </Link>
-
-          {/* Seasonal */}
-          <Link href="/seasonal" className="group rounded-sm border border-[var(--hairline)] bg-[var(--color-ink)]/40 p-5 transition hover:border-[var(--color-gold)]/40">
-            <p className="text-[0.5rem] uppercase tracking-luxe text-[var(--color-gold)]">Season</p>
-            <p className="mt-2 font-display text-lg text-[var(--color-gold-bright)]">{season.name.split(" ")[0]}</p>
-            <p className="mt-1 text-xs text-[var(--color-bone)]/60">{season.element} predominant</p>
-          </Link>
-
-          {/* Crisis SOS */}
-          <Link href="/crisis" className="group rounded-sm border border-[var(--color-rose-accent)]/20 bg-[var(--color-rose-accent)]/5 p-5 transition hover:border-[var(--color-rose-accent)]/40">
-            <p className="text-[0.5rem] uppercase tracking-luxe text-[var(--color-rose-accent)]/80">Emergency</p>
-            <p className="mt-2 font-display text-lg text-[var(--color-rose-accent)]">Crisis Grounding</p>
-            <p className="mt-1 text-xs text-[var(--color-bone)]/55">Instant 7-step protocol →</p>
-          </Link>
-
-          {/* Practice today count */}
-          <Link href="/insights" className="group rounded-sm border border-[var(--color-hairline)] bg-[var(--color-ink)]/40 p-5 transition hover:border-[var(--color-gold)]/40">
-            <p className="text-[0.5rem] uppercase tracking-luxe text-[var(--color-gold)]">Today</p>
-            <p className="mt-2 font-display text-3xl text-[var(--color-gold-bright)]">{entries.filter((e) => e.date === today).length}</p>
-            <p className="mt-1 text-xs text-[var(--color-bone)]/60">session{entries.filter((e) => e.date === today).length !== 1 ? "s" : ""} logged</p>
-          </Link>
+            {/* Column 3 */}
+            <div className="flex flex-col gap-6">
+              <div className="aspect-square bg-gradient-to-br from-beige to-taupe/10 rounded-sm overflow-hidden">
+                <div className="w-full h-full flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="text-5xl font-display text-charcoal mb-2">III</div>
+                    <p className="text-sm text-slate">Transform</p>
+                  </div>
+                </div>
+              </div>
+              <p className="text-slate leading-relaxed">Apply these insights to navigate your becoming with clarity and purpose.</p>
+            </div>
+          </div>
         </div>
+      </section>
 
-        <FlourishDivider className="my-8" />
+      {/* Divider */}
+      <div className="px-4 sm:px-6 lg:px-8">
+        <div className="divider mx-auto max-w-7xl"></div>
+      </div>
 
-        {/* Quick actions */}
-        <div className="mb-3 text-center">
-          <h2 className="font-display text-lg text-[var(--color-gold-bright)]">Quick Practice</h2>
+      {/* Split Section - Philosophy */}
+      <section className="space-section px-4 sm:px-6 lg:px-8 bg-cream">
+        <div className="mx-auto max-w-7xl">
+          <div className="section-split min-h-96">
+            {/* Left: Text */}
+            <div className="flex flex-col justify-center py-12 md:py-0 md:pr-12 lg:pr-16">
+              <p className="text-xs tracking-luxe text-terracotta uppercase mb-6">The Philosophy</p>
+              <h2 className="font-display text-4xl md:text-5xl text-charcoal mb-6">What Has Been Trying to Speak Through You</h2>
+              <p className="text-slate text-lg leading-relaxed mb-6">
+                Every life pattern, every recurring challenge, every moment of transcendence—they are signatures of your soul&apos;s curriculum. The Archive doesn&apos;t promise easy answers. It offers something more valuable: clarity about what you&apos;re meant to become.
+              </p>
+              <div className="mt-2">
+                <Link href="/about" className="inline-flex items-center text-terracotta font-semibold hover:text-navy transition-colors">
+                  Learn More →
+                </Link>
+              </div>
+            </div>
+
+            {/* Right: Visual */}
+            <div className="hidden md:flex items-center justify-center">
+              <div className="w-full h-full bg-gradient-to-br from-terracotta/10 to-navy/5 rounded-sm flex items-center justify-center min-h-96">
+                <div className="text-center">
+                  <div className="text-6xl text-taupe/30 mb-4">∞</div>
+                  <p className="text-sm text-taupe tracking-luxe uppercase">Infinite Becoming</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
-          {quickActions.map((action) => (
-            <Link
-              key={action.href}
-              href={action.href}
-              className="group flex flex-col items-center gap-1 rounded-sm border border-[var(--hairline)] bg-[var(--color-ink)]/40 p-4 transition hover:border-[var(--color-gold)]/40 hover:bg-[var(--color-ink)]/70"
-            >
-              <span className="text-2xl transition group-hover:scale-110">{action.icon}</span>
-              <span className="text-[0.55rem] uppercase tracking-luxe text-[var(--color-bone)]/60 transition group-hover:text-[var(--color-gold-bright)]">{action.label}</span>
-            </Link>
-          ))}
-        </div>
+      </section>
 
-        {/* Entry to the archive */}
-        <div className="mt-10 text-center">
-          <Link href="/archive" className="btn-gold text-xs sm:text-sm">
-            Enter The Full Archive →
+      {/* Divider */}
+      <div className="px-4 sm:px-6 lg:px-8">
+        <div className="divider mx-auto max-w-7xl"></div>
+      </div>
+
+      {/* Features Grid */}
+      <section className="space-section px-4 sm:px-6 lg:px-8 bg-cream">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-16 text-center">
+            <p className="text-sm tracking-luxe text-terracotta uppercase mb-4">Features</p>
+            <h2 className="font-display text-4xl md:text-5xl text-charcoal">Everything You Need</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+            {/* Feature 1 */}
+            <div className="border-l-2 border-terracotta pl-6">
+              <h3 className="font-display text-2xl text-charcoal mb-3">Personal Vault</h3>
+              <p className="text-slate">End-to-end encrypted storage for your most private insights and patterns. Only you hold the key.</p>
+            </div>
+
+            {/* Feature 2 */}
+            <div className="border-l-2 border-navy pl-6">
+              <h3 className="font-display text-2xl text-charcoal mb-3">Wisdom Library</h3>
+              <p className="text-slate">Curated teachings from lineages, psychology, and contemporary insight designed for modern souls.</p>
+            </div>
+
+            {/* Feature 3 */}
+            <div className="border-l-2 border-terracotta pl-6">
+              <h3 className="font-display text-2xl text-charcoal mb-3">Tracking Tools</h3>
+              <p className="text-slate">Monitor your patterns, rituals, and transformations. Watch yourself evolve with intentionality.</p>
+            </div>
+
+            {/* Feature 4 */}
+            <div className="border-l-2 border-navy pl-6">
+              <h3 className="font-display text-2xl text-charcoal mb-3">Living Practices</h3>
+              <p className="text-slate">Daily rituals, meditations, and embodied practices that meet you where you are on your journey.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Divider */}
+      <div className="px-4 sm:px-6 lg:px-8">
+        <div className="divider mx-auto max-w-7xl"></div>
+      </div>
+
+      {/* Final CTA */}
+      <section className="space-section px-4 sm:px-6 lg:px-8 bg-cream">
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="font-display text-4xl md:text-5xl text-charcoal mb-6">Begin Your Becoming</h2>
+          <p className="text-lg text-slate mb-10">
+            The archive is waiting. Not with judgment, but with infinite patience and the wisdom of a thousand lifetimes.
+          </p>
+          <Link href="/unlock" className="btn-accent">
+            Enter the Archive
           </Link>
         </div>
       </section>
+
+      {/* Footer Minimal */}
+      <footer className="border-t border-beige px-4 sm:px-6 lg:px-8 py-12 bg-white/30">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <p className="font-display text-sm font-semibold text-charcoal mb-4">AstroKalki</p>
+              <p className="text-xs text-taupe">The archive of your becoming.</p>
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-charcoal mb-3 uppercase tracking-luxe">Explore</p>
+              <ul className="space-y-2 text-xs text-slate">
+                <li><Link href="#" className="hover:text-terracotta">Archive</Link></li>
+                <li><Link href="#" className="hover:text-terracotta">Practices</Link></li>
+                <li><Link href="#" className="hover:text-terracotta">Teachings</Link></li>
+              </ul>
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-charcoal mb-3 uppercase tracking-luxe">Learn</p>
+              <ul className="space-y-2 text-xs text-slate">
+                <li><Link href="#" className="hover:text-terracotta">About</Link></li>
+                <li><Link href="#" className="hover:text-terracotta">Philosophy</Link></li>
+                <li><Link href="#" className="hover:text-terracotta">FAQ</Link></li>
+              </ul>
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-charcoal mb-3 uppercase tracking-luxe">Connect</p>
+              <ul className="space-y-2 text-xs text-slate">
+                <li><Link href="#" className="hover:text-terracotta">Privacy</Link></li>
+                <li><Link href="#" className="hover:text-terracotta">Terms</Link></li>
+                <li><Link href="#" className="hover:text-terracotta">Contact</Link></li>
+              </ul>
+            </div>
+          </div>
+          <div className="divider"></div>
+          <div className="mt-8 text-center text-xs text-taupe">
+            <p>© 2026 AstroKalki. All patterns preserved.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
